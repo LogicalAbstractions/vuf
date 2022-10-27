@@ -18,8 +18,7 @@ def top_2_accuracy(inp, targ, axis=-1):
 
 
 def execute_training():
-
-    #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec/large/train"
+    # dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec/large/train"
     dataset_path = "/mnt/vol_b/data/4sec-25fps/large/train"
 
     configuration = {
@@ -27,7 +26,7 @@ def execute_training():
         "model": "rnn",
         "dataset_path": dataset_path,
         "batch_size": 4,
-        "frame_size": 384,
+        "frame_size": (256, 128),
         "val_split": 0.5,
         "frozen_epochs": 100,
         "epochs": 100

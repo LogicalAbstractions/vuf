@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Tuple
 
 from fastai.data.core import DataLoaders, Datasets
 from fastai.data.transforms import RandomSplitter, parent_label, Categorize, ToTensor, IntToFloatTensor, Normalize
@@ -36,7 +36,8 @@ class VideoDataset:
     def get_frame_count(self) -> int:
         return len(self.instances_paths[0].ls())
 
-    def create_dataloaders(self, batch_size: int, frame_size: int, val_split: float, **kwargs) -> DataLoaders:
+    def create_dataloaders(self, batch_size: int, frame_size: Tuple[int, int], val_split: float,
+                           **kwargs) -> DataLoaders:
         splits = RandomSplitter(val_split)(self.instances_paths)
         data_transform = VideoDataTransform(self.get_frame_count())
         datasets = Datasets(self.instances_paths,
