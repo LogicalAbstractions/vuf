@@ -26,7 +26,7 @@ def execute_training():
         "encoder": "resnet152",
         "model": "rnn",
         "dataset_path": dataset_path,
-        "batch_size": 8,
+        "batch_size": 4,
         "frame_size": 512,
         "val_split": 0.5,
         "frozen_epochs": 100,
