@@ -18,16 +18,22 @@ def top_2_accuracy(inp, targ, axis=-1):
 
 
 def execute_training():
+
+    #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec/large/train"
+    dataset_path = "/mnt/vol_b/data/4sec-5fps/large/train"
+
     configuration = {
-        "encoder": "resnet18",
+        "encoder": "resnet152",
         "model": "rnn",
-        "dataset_path": "/media/bglueck/Data/Datasets/soccernet-datasets/4sec/large/train",
-        "batch_size": 2,
-        "frame_size": 256,
-        "val_split": 0.3,
-        "frozen_epochs": 60,
-        "epochs": 60
+        "dataset_path": dataset_path,
+        "batch_size": 8,
+        "frame_size": 512,
+        "val_split": 0.5,
+        "frozen_epochs": 100,
+        "epochs": 100
     }
+
+    print("Training from: {}".format(dataset_path))
 
     dataset_path = configuration["dataset_path"]
 
@@ -52,7 +58,7 @@ def execute_training():
                                                  configuration["val_split"]),
                       model,
                       metrics=[accuracy, error_rate, top_2_accuracy],
-                      splitter=model_description.splitter)
+                      splitter=model_description.splitter).to_fp16()
 
     callbacks = [TensorBoardCallback(trace_model=False),
                  WandbCallback(),
