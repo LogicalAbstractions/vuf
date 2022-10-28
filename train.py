@@ -26,11 +26,11 @@ def execute_training():
         "encoder": "resnet18",
         "model": "timesformer",
         "dataset_path": dataset_path,
-        "batch_size": 4,
+        "batch_size": 2,
         "frame_size": (256, 256),
         "val_split": 0.5,
         "frozen_epochs": 100,
-        "epochs": 100
+        "epochs": 200
     }
 
     print("Training from: {}".format(dataset_path))
