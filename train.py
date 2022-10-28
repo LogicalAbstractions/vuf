@@ -27,7 +27,7 @@ def execute_training():
         "model": "timesformer",
         "dataset_path": dataset_path,
         "batch_size": 2,
-        "frame_size": (256, 256),
+        "frame_size": (192, 192),
         "val_split": 0.5,
         "frozen_epochs": 100,
         "epochs": 200
