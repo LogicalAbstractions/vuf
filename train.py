@@ -20,15 +20,15 @@ def top_2_accuracy(inp, targ, axis=-1):
 
 def execute_training():
     #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec-5fps/small/train"
-    dataset_path = "/mnt/vol_b/data/4sec-5fps/medium/train"
+    dataset_path = "/mnt/vol_b/data/4sec-5fps/large/train"
 
     configuration = {
         "encoder": "resnet18",
         "model": "timesformer",
         "dataset_path": dataset_path,
-        "batch_size": 8,
-        "frame_size": (128, 128),
-        "val_split": 0.5,
+        "batch_size": 32,
+        "frame_size": (64, 64),
+        "val_split": 0.1,
         "frozen_epochs": 100,
         "epochs": 200
     }
