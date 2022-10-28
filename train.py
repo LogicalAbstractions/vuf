@@ -10,6 +10,7 @@ from fastai.metrics import accuracy, error_rate, top_k_accuracy
 
 from data.video_dataset import VideoDataset
 from models.encoders.encoder_registry import EncoderRegistry
+from models.model_parameters import ModelParameters
 from models.model_registry import ModelRegistry
 
 
@@ -18,15 +19,15 @@ def top_2_accuracy(inp, targ, axis=-1):
 
 
 def execute_training():
-    # dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec/large/train"
+    #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec-5fps/small/train"
     dataset_path = "/mnt/vol_b/data/4sec-25fps/large/train"
 
     configuration = {
         "encoder": "resnet18",
-        "model": "rnn",
+        "model": "timesformer",
         "dataset_path": dataset_path,
         "batch_size": 4,
-        "frame_size": (256, 128),
+        "frame_size": (256, 256),
         "val_split": 0.5,
         "frozen_epochs": 100,
         "epochs": 100
@@ -46,24 +47,32 @@ def execute_training():
     model_hyper_parameters = model_description.hyper_parameters
     model_hyper_parameters["rnn_layers"] = 1
 
-    configuration["model_parameters"] = model_hyper_parameters
+    configuration["model_hyper_parameters"] = model_hyper_parameters
     configuration["classes"] = dataset.get_class_ids()
 
     wandb.init(project='vuf', config=configuration)
 
-    model = model_description(model_hyper_parameters, encoder_description, len(dataset.get_class_ids()))
+    model_parameters = ModelParameters(model_hyper_parameters, encoder_description, configuration["frame_size"],
+                                       len(dataset.get_class_ids()), dataset.get_frame_count())
+
+    model = model_description(model_parameters).cuda()
 
     learner = Learner(dataset.create_dataloaders(configuration["batch_size"], configuration["frame_size"],
                                                  configuration["val_split"]),
                       model,
-                      metrics=[accuracy, error_rate, top_2_accuracy],
-                      splitter=model_description.splitter).to_fp16()
+                      metrics=[accuracy, error_rate, top_2_accuracy]).to_fp16()
+
+    if model_description.splitter is not None:
+        learner.splitter = model_description.splitter
 
     callbacks = [TensorBoardCallback(trace_model=False),
                  WandbCallback(),
                  SaveModelCallback()]
 
-    learner.fine_tune(configuration["epochs"], freeze_epochs=configuration["frozen_epochs"], cbs=callbacks)
+    if model_description.splitter is not None:
+        learner.fine_tune(configuration["epochs"], freeze_epochs=configuration["frozen_epochs"], cbs=callbacks)
+    else:
+        learner.fit_one_cycle(configuration["epochs"], cbs=callbacks)
 
 
 if __name__ == '__main__':
