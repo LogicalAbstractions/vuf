@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 from fastai.data.core import DataLoaders, Datasets
 from fastai.data.transforms import RandomSplitter, parent_label, Categorize, ToTensor, IntToFloatTensor, Normalize
-from fastai.vision.augment import Resize
+from fastai.vision.augment import Resize, __all__
 from fastai.vision.core import imagenet_stats
 from fastcore.basics import patch
 from fastcore.transform import DisplayedTransform
@@ -45,7 +45,7 @@ class VideoDataset:
                             splits=splits)
 
         return datasets.dataloaders(batch_size,
-                                    after_item=[Resize(frame_size), ToTensor],
+                                    after_item=[Resize(frame_size, ResizeMethod.Squish), ToTensor],
                                     after_batch=[IntToFloatTensor, Normalize.from_stats(*imagenet_stats)],
                                     drop_last=True,
                                     **kwargs)
