@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 from fastai.data.core import DataLoaders, Datasets
 from fastai.data.transforms import RandomSplitter, parent_label, Categorize, ToTensor, IntToFloatTensor, Normalize
-from fastai.vision.augment import Resize, ResizeMode
+from fastai.vision.augment import Resize
 from fastai.vision.core import imagenet_stats
 from fastcore.basics import patch
 from fastcore.transform import DisplayedTransform
