@@ -45,7 +45,7 @@ class VideoDataset:
                             splits=splits)
 
         return datasets.dataloaders(batch_size,
-                                    after_item=[Resize(frame_size, ResizeMethod.Squish), ToTensor],
+                                    after_item=[Resize(frame_size), ToTensor],
                                     after_batch=[IntToFloatTensor, Normalize.from_stats(*imagenet_stats)],
                                     drop_last=True,
                                     **kwargs)
