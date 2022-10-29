@@ -20,7 +20,7 @@ def top_2_accuracy(inp, targ, axis=-1):
 
 def execute_training():
     #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec-5fps/small/train"
-    dataset_path = "/mnt/vol_b/data/4sec-5fps/small/train"
+    dataset_path = "/mnt/vol_b/data/4sec-5fps/large/train"
 
     configuration = {
         "encoder": "resnet18",
