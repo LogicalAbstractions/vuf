@@ -20,14 +20,14 @@ def top_2_accuracy(inp, targ, axis=-1):
 
 def execute_training():
     #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec-5fps/small/train"
-    dataset_path = "/mnt/vol_b/data/4sec-5fps/medium/train"
+    dataset_path = "/mnt/vol_b/data/4sec-5fps/small/train"
 
     configuration = {
         "encoder": "resnet18",
         "model": "timesformer",
         "dataset_path": dataset_path,
         "batch_size": 2,
-        "frame_size": (256, 256),
+        "frame_size": (192, 192),
         "val_split": 0.1,
         "frozen_epochs": 100,
         "epochs": 200
@@ -46,6 +46,9 @@ def execute_training():
 
     model_hyper_parameters = model_description.hyper_parameters
     model_hyper_parameters["rnn_layers"] = 1
+    model_hyper_parameters["heads"] = 16
+    model_hyper_parameters["dim_head"] = 128
+    model_hyper_parameters["dim"] = 256
 
     configuration["model_hyper_parameters"] = model_hyper_parameters
     configuration["classes"] = dataset.get_class_ids()

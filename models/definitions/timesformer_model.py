@@ -24,8 +24,8 @@ class TimesFormerModel(TimeSformer):
             "depth": 12,
             "heads": 8,
             "dim_head": 64,
-            "attn_dropout": 0.5,
-            "ff_dropout": 0.5
+            "attn_dropout": 0.1,
+            "ff_dropout": 0.1
         }
 
     @staticmethod
