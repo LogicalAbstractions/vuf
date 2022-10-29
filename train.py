@@ -26,8 +26,8 @@ def execute_training():
         "encoder": "resnet18",
         "model": "timesformer",
         "dataset_path": dataset_path,
-        "batch_size": 2,
-        "frame_size": (240, 240),
+        "batch_size": 8,
+        "frame_size": (128, 128),
         "val_split": 0.2,
         "frozen_epochs": 100,
         "epochs": 200
@@ -49,6 +49,8 @@ def execute_training():
     model_hyper_parameters["heads"] = 8
     model_hyper_parameters["dim_head"] = 64
     model_hyper_parameters["dim"] = 128
+    model_hyper_parameters["attn_dropout"] = 0.5
+    model_hyper_parameters["ff_dropout"] = 0.5
 
     configuration["model_hyper_parameters"] = model_hyper_parameters
     configuration["classes"] = dataset.get_class_ids()
