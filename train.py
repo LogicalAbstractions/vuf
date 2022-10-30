@@ -18,8 +18,12 @@ def top_2_accuracy(inp, targ, axis=-1):
     return top_k_accuracy(inp, targ, k=2, axis=axis)
 
 
+def top_3_accuracy(inp, targ, axis=-1):
+    return top_k_accuracy(inp, targ, k=3, axis=axis)
+
+
 def execute_training():
-    #dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec-5fps/small/train"
+    # dataset_path = "/media/bglueck/Data/Datasets/soccernet-datasets/4sec-5fps/small/train"
     dataset_path = "/mnt/vol_b/data/8sec-5fps/large/train"
 
     configuration = {
@@ -65,7 +69,7 @@ def execute_training():
     learner = Learner(dataset.create_dataloaders(configuration["batch_size"], configuration["frame_size"],
                                                  configuration["val_split"]),
                       model,
-                      metrics=[accuracy, error_rate, top_2_accuracy]).to_fp16()
+                      metrics=[accuracy, error_rate, top_2_accuracy, top_3_accuracy]).to_fp16()
 
     if model_description.splitter is not None:
         learner.splitter = model_description.splitter
