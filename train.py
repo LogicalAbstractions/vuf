@@ -50,8 +50,8 @@ def execute_training():
 
     model_hyper_parameters = model_description.hyper_parameters
     model_hyper_parameters["rnn_layers"] = 1
-    model_hyper_parameters["heads"] = 8
-    model_hyper_parameters["dim_head"] = 64
+    model_hyper_parameters["heads"] = 12
+    model_hyper_parameters["dim_head"] = 128
     model_hyper_parameters["dim"] = 128
     model_hyper_parameters["attn_dropout"] = 0.5
     model_hyper_parameters["ff_dropout"] = 0.5
